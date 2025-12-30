@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>整理済みブックマーク - Chrome Bookmark Organizer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 40px;
+            background: #f8f9fa;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            color: #666;
+            margin-top: 5px;
+        }
+
+        nav {
+            padding: 20px 40px;
+            background: white;
+            border-bottom: 2px solid #f0f0f0;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+        }
+
+        .nav-btn.active {
+            background: #764ba2;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .view {
+            display: none;
+        }
+
+        .view.active {
+            display: block;
+        }
+
+        .category {
+            margin-bottom: 40px;
+        }
+
+        .category-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .category-header:hover {
+            transform: translateX(5px);
+        }
+
+        .category-title {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .category-count {
+            background: rgba(255,255,255,0.3);
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+
+        .bookmarks {
+            margin-top: 10px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .bookmark {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s;
+        }
+
+        .bookmark:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .bookmark a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .bookmark a:hover {
+            color: #764ba2;
+        }
+
+        .bookmark-url {
+            color: #999;
+            font-size: 0.9em;
+            word-break: break-all;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1em;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #764ba2;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+        }
+
+        .download-section {
+            text-align: center;
+            padding: 40px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .download-btn {
+            display: inline-block;
+            padding: 15px 30px;
+            margin: 10px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            transition: all 0.3s;
+        }
+
+        .download-btn:hover {
+            background: #764ba2;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔖 整理済みブックマーク</h1>
+            <p class="subtitle">Chrome Bookmark Organizer</p>
+        </header>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number">8,438</div>
+                <div class="stat-label">元のブックマーク数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">6,529</div>
+                <div class="stat-label">整理後のブックマーク数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">-22.6%</div>
+                <div class="stat-label">削減率</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">13</div>
+                <div class="stat-label">カテゴリー数</div>
+            </div>
+        </div>
+
+        <nav>
+            <button class="nav-btn active" onclick="showView('categorized')">カテゴリー別表示</button>
+            <button class="nav-btn" onclick="showView('simple')">シンプル表示</button>
+            <button class="nav-btn" onclick="showView('download')">ダウンロード</button>
+        </nav>
+
+        <div class="content">
+            <div id="categorized-view" class="view active">
+                <input type="text" class="search-box" id="search" placeholder="🔍 ブックマークを検索..." onkeyup="searchBookmarks()">
+                <div id="categories"></div>
+            </div>
+
+            <div id="simple-view" class="view">
+                <input type="text" class="search-box" id="search-simple" placeholder="🔍 ブックマークを検索..." onkeyup="searchBookmarksSimple()">
+                <div id="simple-list"></div>
+            </div>
+
+            <div id="download-view" class="view">
+                <div class="download-section">
+                    <h2 style="margin-bottom: 20px;">ブックマークファイルをダウンロード</h2>
+                    <a href="bookmarks_categorized.html" download class="download-btn">
+                        📁 カテゴリー分類版をダウンロード（推奨）
+                    </a>
+                    <a href="bookmarks_cleaned.html" download class="download-btn">
+                        📄 シンプル版をダウンロード
+                    </a>
+                    <p style="margin-top: 30px; color: #666;">
+                        ダウンロード後、Chromeのブックマークマネージャー（Ctrl+Shift+O）から<br>
+                        「ブックマークをインポート」で読み込んでください。
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Chrome Bookmark Organizer - 自動整理ツール</p>
+            <p style="margin-top: 10px; font-size: 0.9em;">元: 8,438個 → 整理後: 6,529個（-22.6%削減）</p>
+        </footer>
+    </div>
+
+    <script>
+        // ブックマークデータを動的に読み込む
+        const categories = {
+            "AI・ChatGPT": 143,
+            "Googleドキュメント": 6,
+            "Googleドライブ": 20,
+            "Google検索・サービス": 553,
+            "Wikipedia・辞書": 140,
+            "その他": 2135,
+            "ショッピング": 123,
+            "ブログ・記事": 224,
+            "プログラミング・技術": 572,
+            "動画・エンターテイメント": 1618,
+            "学習・受験・教育": 842,
+            "論文・研究": 13,
+            "音楽・楽譜": 140
+        };
+
+        function showView(viewName) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+
+            document.getElementById(viewName + '-view').classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function searchBookmarks() {
+            const searchText = document.getElementById('search').value.toLowerCase();
+            document.querySelectorAll('.bookmark').forEach(bookmark => {
+                const text = bookmark.textContent.toLowerCase();
+                bookmark.style.display = text.includes(searchText) ? 'block' : 'none';
+            });
+        }
+
+        function searchBookmarksSimple() {
+            const searchText = document.getElementById('search-simple').value.toLowerCase();
+            document.querySelectorAll('.bookmark').forEach(bookmark => {
+                const text = bookmark.textContent.toLowerCase();
+                bookmark.style.display = text.includes(searchText) ? 'block' : 'none';
+            });
+        }
+
+        function toggleCategory(element) {
+            const bookmarks = element.nextElementSibling;
+            bookmarks.style.display = bookmarks.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // カテゴリー表示を生成
+        const categoriesDiv = document.getElementById('categories');
+        for (const [name, count] of Object.entries(categories)) {
+            const categoryDiv = document.createElement('div');
+            categoryDiv.className = 'category';
+            categoryDiv.innerHTML = `
+                <div class="category-header" onclick="toggleCategory(this)">
+                    <span class="category-title">${name}</span>
+                    <span class="category-count">${count}個</span>
+                </div>
+                <div class="bookmarks">
+                    <p style="text-align: center; color: #999; padding: 20px;">
+                        実際のブックマークは bookmarks_categorized.html をダウンロードしてご確認ください
+                    </p>
+                </div>
+            `;
+            categoriesDiv.appendChild(categoryDiv);
+        }
+
+        // シンプル表示を生成
+        const simpleDiv = document.getElementById('simple-list');
+        simpleDiv.innerHTML = `
+            <div class="bookmarks">
+                <p style="text-align: center; color: #999; padding: 40px; font-size: 1.1em;">
+                    6,529個の整理済みブックマークがあります。<br><br>
+                    実際のブックマークは bookmarks_cleaned.html をダウンロードしてご確認ください。
+                </p>
+            </div>
+        `;
+    </script>
+</body>
+</html>
