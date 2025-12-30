@@ -1,4 +1,17 @@
-# Chromeブックマーク整理プロジェクト
+# 🔖 Chrome Bookmark Organizer
+
+> Chromeブックマーク自動整理ツール - 重複削除・無効URL除去・カテゴリー自動分類
+
+[![Python](https://img.shields.io/badge/Python-3.7+-blue.svg)](https://www.python.org/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
+## ✨ 特徴
+
+- 🗑️ **重複URL自動削除** - 1,790個の重複を検出・削除
+- 🧹 **無効URL除去** - chrome://, file://, localhost系URLを自動削除
+- 📁 **13カテゴリー自動分類** - 機械学習不要の賢い分類ロジック
+- 📊 **詳細レポート生成** - 整理前後の統計を自動生成
+- ⚡ **高速処理** - 8,000個以上のブックマークを数秒で処理
 
 ## 📊 整理結果サマリー
 
