@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+
+# Large original files (keep in releases or separate storage)
+# Uncomment if you don't want to track the original large file:
+# bookmarks_2025_12_31.html
+# bookmarks_2025_12_31_cleaned.html
