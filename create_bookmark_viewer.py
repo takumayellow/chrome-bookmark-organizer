@@ -464,7 +464,7 @@ def create_viewer_html(bookmark_file, output_file):
 
 
 if __name__ == '__main__':
-    input_file = 'bookmarks_2025_12_31_cleaned.html'
+    input_file = 'bookmarks_recent_2024.html'
     output_file = 'index.html'
 
     create_viewer_html(input_file, output_file)
