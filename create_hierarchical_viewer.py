@@ -605,7 +605,12 @@ def create_hierarchical_viewer(input_file, output_file):
 
 
 if __name__ == '__main__':
-    input_file = 'bookmarks_recent_2024.html'
-    output_file = 'index.html'
+    import sys
+    if len(sys.argv) >= 3:
+        input_file = sys.argv[1]
+        output_file = sys.argv[2]
+    else:
+        input_file = 'bookmarks_organized.html'
+        output_file = 'index.html'
 
     create_hierarchical_viewer(input_file, output_file)
